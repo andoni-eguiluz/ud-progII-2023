@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.*;
 
 /** Clase ventana sencilla para dibujado directo a la ventana
+ * v 1.2.2 - Mejorado método esperaAClick para devolver coordenada de click de ratón
  * v 1.2.1 - Incorpora posibilidad de cambiar el color de fondo y el soporte para clic derecho y central  (gracias a https://github.com/LNDF)
  * v 1.2 - Incorpora posibilidad de cambio de zoom y offset (desplamiento) de origen
  * v 1.1.6 - Incorpora método para dibujar texto centrado
@@ -500,11 +501,22 @@ public class VentanaGrafica {
 		} catch (InterruptedException e) {
 		}
 	}
-	/** Espera hasta que ocurra un click completo de ratón
+	/** Espera hasta que ocurra una pulsación y suelta de ratón
+	 * @return	Devuelve la coordenada de click si ha ocurrido un click (pulsación y suelta en la misma coordenada, null si ha habido un drag (pulsación y suelta en distintas coordenadas)
 	 */
-	public void esperaAClick() {
-		while (getRatonPulsado()==null && !estaCerrada()) {}  // Espera a pulsación...
-		while (getRatonPulsado()!=null && !estaCerrada()) {}  // ...y espera a suelta
+	public Point esperaAClick() {
+		Point posibleClick = null;
+		while (posibleClick==null && !estaCerrada()) {  // Espera a pulsación...
+			posibleClick = getRatonPulsado();
+		}
+		Point sueltaClick = posibleClick;
+		while (sueltaClick!=null && !estaCerrada()) {  // ...y espera a suelta
+			sueltaClick = getRatonPulsado();
+			if (sueltaClick!=null && !sueltaClick.equals(posibleClick)) {
+				posibleClick = null;  // Se anula el click si hay un drag
+			}
+		}
+		return posibleClick;
 	}
 	/** Cierra la ventana (también ocurre cuando se pulsa el icono de cierre)
 	 */
