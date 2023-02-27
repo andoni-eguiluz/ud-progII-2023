@@ -51,5 +51,8 @@ public class UsoDeStrings {
 			System.out.println( "Substring de s2 desde " + (posiEspacio+1) + " = \"" + s2.substring(posiEspacio+1) + "\"" );
 		}
 		System.out.println( "Substring de s2 desde 1 (inclusive) a 3 (exclusive): \"" + s2.substring(1,3) + "\"" );
+		
+		System.out.println( "Hay más métodos interesantes en la clase String:" );
+		System.out.println( "  equalsIgnoreCase, isEmpty, lastIndexOf, replace, replaceAll, split, trim, toLowerCase, toUpperCase... ¡explóralos!" );
 	}
 }

@@ -132,7 +132,7 @@ public class EstructurasDeControl {
 		if (divisor!=0 && dividendo/divisor > 0) {
 			System.out.println( "La división es mayor que 0" );
 		}
-		if (dividendo/divisor > 0 & divisor!=0) {
+		if (dividendo/divisor > 0 && divisor!=0) {
 			System.out.println( "La división es mayor que 0" );
 		}
 	}
