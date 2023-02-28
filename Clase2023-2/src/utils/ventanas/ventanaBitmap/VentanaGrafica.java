@@ -563,7 +563,9 @@ public class VentanaGrafica {
 	 */
 	public Point getRatonClicado() {
 		synchronized (lock) {
-			return pointClicked;
+			Point lastClick = pointClicked;
+			pointClicked = null;
+			return lastClick;
 		}
 	}
 	
