@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.*;
 
 /** Clase ventana sencilla para dibujado directo a la ventana
- * v 1.2.2 - Mejorado método esperaAClick para devolver coordenada de click de ratón
+ * v 1.2.2 - Añadido método getRatonClicado. Mejorado método esperaAClick para devolver coordenada de click de ratón
  * v 1.2.1 - Incorpora posibilidad de cambiar el color de fondo y el soporte para clic derecho y central  (gracias a https://github.com/LNDF)
  * v 1.2 - Incorpora posibilidad de cambio de zoom y offset (desplamiento) de origen
  * v 1.1.6 - Incorpora método para dibujar texto centrado
@@ -355,6 +355,7 @@ public class VentanaGrafica {
 	private BufferedImage buffer;   // Buffer gráfico de la ventana
 	private Graphics2D graphics;    // Objeto gráfico sobre el que dibujar (del buffer)
 	private Point pointPressed;     // Coordenada pulsada de ratón (si existe)
+	private Point pointClicked;     // Coordenada clicada de ratón (si existe)
 	private boolean botonIzquierdo; // Información de si el último botón pulsado es izquierdo o no lo es
 	private boolean botonDerecho;   // Información de si el ultimo botón pulsado es derecho o no lo es
 	private boolean botonMedio;     // Información de si el ultimo botón pulsado es el del medio o no lo es
@@ -439,7 +440,15 @@ public class VentanaGrafica {
 					botonIzquierdo = SwingUtilities.isLeftMouseButton(e);
 					botonDerecho = SwingUtilities.isRightMouseButton(e);
 					botonMedio = SwingUtilities.isMiddleMouseButton(e);
-					
+				}
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				synchronized (lock) {
+					pointClicked = e.getPoint();
+					botonIzquierdo = SwingUtilities.isLeftMouseButton(e);
+					botonDerecho = SwingUtilities.isRightMouseButton(e);
+					botonMedio = SwingUtilities.isMiddleMouseButton(e);
 				}
 			}
 		});
@@ -545,6 +554,16 @@ public class VentanaGrafica {
 	public Point getRatonPulsado() {
 		synchronized (lock) {
 			return pointPressed;
+		}
+	}
+	
+	/** Devuelve el punto donde se ha hecho click (pulsa y suelta en la misma coordenada) al ratón por última vez. Una vez llamado, se borra el punto (solo se devuelve una vez cada click).
+	 * Si han ocurrido varios clicks antes de llamar a este método, solo se devuelve el último.
+	 * @return	Punto relativo a la ventana, null si el ratón no ha tenido ningún click desde la última llamada
+	 */
+	public Point getRatonClicado() {
+		synchronized (lock) {
+			return pointClicked;
 		}
 	}
 	
