@@ -38,8 +38,6 @@ public class Ejercicio10iConObjetos {
 				new UsuarioRedSocial( "@elonmusk", 128900 )
 		};
 		
-		
-		
 		visualizarUsuariosYSeguidores( usuariosRS );
 		ordenarUsuarios( usuariosRS );
 		visualizarUsuariosYSeguidores( usuariosRS );

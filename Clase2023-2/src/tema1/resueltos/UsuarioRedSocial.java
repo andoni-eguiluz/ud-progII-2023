@@ -1,8 +1,8 @@
 package tema1.resueltos;
 
 public class UsuarioRedSocial {
-	public String nombre; // COMPOSICIÓN
-	public int seguidores;
+	private String nombre; // COMPOSICIÓN
+	private int seguidores;
 	
 	/** Crea un usuario con nombre vacío ("") y 0 seguidores
 	 */
@@ -32,14 +32,46 @@ public class UsuarioRedSocial {
 		// seguidores = 0;
 	}
 	
+	/** Cambia el número de seguidores.
+	 * Produce un error en consola si es negativo y no se cambia
+	 * @param seguidores	Nuevo número de seguidores, en miles
+	 */
+	public void setSeguidores( int seguidores ) {
+		if (seguidores < 0) {
+			System.err.println( "Error: no pueden ser negativos los seguidores" );
+		} else {
+			this.seguidores = seguidores;
+		}
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	/** Devuelve los seguidores
+	 * @return	Seguidores, en miles
+	 */
+	public int getSeguidores() {
+		return seguidores;
+	}
+
 	public String toString() {
 		return this.nombre + " " + this.seguidores;
 	}
 	
+	/** Compara el usuario para ver si la fama (número de seguidores) es menor o mayor
+	 * @param usuario2	Otro usuario
+	 * @return	true si el usuario en curso tiene menos seguidores que usuario2, false en caso contrario
+	 */
 	public boolean esMenosFamosoQue( UsuarioRedSocial usuario2 ) {
 		return this.seguidores < usuario2.seguidores;
 	}
 	
+	/** Compara dos usuarios entre sí en función de su fama (número de seguidores)
+	 * @param u1	usuario 1
+	 * @param u2	usuario 2
+	 * @return	true si el usuario 1 tiene menos seguidores que el usuario 2, false en caso contrario
+	 */
 	public static boolean comparaFama( UsuarioRedSocial u1, UsuarioRedSocial u2 ) {
 		return u1.seguidores < u2.seguidores;
 	}
