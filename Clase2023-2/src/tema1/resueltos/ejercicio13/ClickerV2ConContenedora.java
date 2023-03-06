@@ -9,7 +9,7 @@ import utils.ventanas.ventanaBitmap.VentanaGrafica;
 /** Ejercicio 1.13 resuelto (segunda versión del clicker - multicírculo y puntuación negativa tras círculo "muerto")
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
-public class ClickerV2 {
+public class ClickerV2ConContenedora {
 
 	private static final long TIEMPO_MAXIMO_PUNTOS = 2000;
 	// v2
@@ -22,7 +22,7 @@ public class ClickerV2 {
 	private static int puntos;
 	// v2
 	// Circulo[] -array
-	private static ArrayList<Circulo> circulos;
+	private static GrupoCirculos circulos;
 	
 	public static void main(String[] args) {
 		initVentana();
@@ -36,13 +36,13 @@ public class ClickerV2 {
 	}
 	
 	private static void juego() {
-		circulos = new ArrayList<>();
+		circulos = new GrupoCirculos();
 		puntos = 0;
 		long tiempoUltimoCirculo = 0;
 		while (!ventana.estaCerrada()) {
 			// Mecánica 1: aparición de círculos
 			if (System.currentTimeMillis() - tiempoUltimoCirculo > ESPERA_ENTRE_CIRCULOS) {
-				circulos.add( creaNuevoCirculo() );
+				circulos.anyadir( creaNuevoCirculo() );
 				tiempoUltimoCirculo = System.currentTimeMillis();
 			}
 			// Mecánica 3: fin de juego por número de círculos
@@ -54,9 +54,7 @@ public class ClickerV2 {
 			}
 			// Dibujado
 			ventana.borra();
-			for (Circulo circulo : circulos) {
-				circulo.dibujar( ventana );
-			}
+			circulos.dibujar( ventana );
 			ventana.repaint();
 			// Mecánica 2: click en círculo - puntuación
 			Circulo circuloClick = hayClickEnAlgunCirculo( circulos );
@@ -79,16 +77,10 @@ public class ClickerV2 {
 		return new Circulo( ventana );
 	}
 	
-	private static Circulo hayClickEnAlgunCirculo( ArrayList<Circulo> circulos ) {
+	private static Circulo hayClickEnAlgunCirculo( GrupoCirculos circulos ) {
 		Point hayClick = ventana.getRatonClicado();
 		if (hayClick!=null) {
-			Circulo hayCirculoClicado = null;
-			for (Circulo circulo : circulos) {
-				if (circulo.contienePunto( hayClick )) {
-					hayCirculoClicado = circulo;
-					break;
-				}
-			}
+			Circulo hayCirculoClicado = circulos.hayClickEnAlgunCirculo(hayClick);
 			if (hayCirculoClicado==null) {  // Ningún círculo pulsado
 				puntos -= 1000;
 				ventana.setMensaje( "Puntos: " + puntos );

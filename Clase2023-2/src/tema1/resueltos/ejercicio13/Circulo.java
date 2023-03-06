@@ -169,7 +169,11 @@ public class Circulo {
 	 * @param v	Ventana en la que dibujar el círculo
 	 */
 	public void dibujar( VentanaGrafica v ) {
-		v.dibujaCirculo( xCentro, yCentro, radioEnPixels, 2.0f, colorBorde, colorRelleno );
+		if (getTiempoVida() > 2000) {
+			v.dibujaCirculo( xCentro, yCentro, radioEnPixels, 2.0f, colorBorde, Color.WHITE );
+		} else {
+			v.dibujaCirculo( xCentro, yCentro, radioEnPixels, 2.0f, colorBorde, colorRelleno );
+		}
 	}
 
 	/** Informa si el círculo contiene un punto de la ventana
