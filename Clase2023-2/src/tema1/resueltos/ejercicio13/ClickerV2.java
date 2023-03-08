@@ -21,7 +21,6 @@ public class ClickerV2 {
 	private static VentanaGrafica ventana;
 	private static int puntos;
 	// v2
-	// Circulo[] -array
 	private static ArrayList<Circulo> circulos;
 	
 	public static void main(String[] args) {

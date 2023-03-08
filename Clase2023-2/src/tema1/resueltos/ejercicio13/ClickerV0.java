@@ -6,6 +6,7 @@ import utils.ventanas.ventanaBitmap.VentanaGrafica;
 
 public class ClickerV0 {
 	public static void main(String[] args) {
+		// Parte batch
 		Circulo c = new Circulo( 15, 100, 200, Color.CYAN, Color.BLUE );
 		System.out.println( c.toString() );
 		Point punto = new Point( 200, 150 );
@@ -15,6 +16,7 @@ public class ClickerV0 {
 		System.out.println( c3 + " color " + c3.getColorBorde() );
 		Circulo c4 = new Circulo();
 		System.out.println( c4 );
+		// Parte un pelín interactiva
 		crearYProbarVentana( c4 );
 	}
 	

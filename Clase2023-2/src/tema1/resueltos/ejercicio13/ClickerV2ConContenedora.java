@@ -21,7 +21,6 @@ public class ClickerV2ConContenedora {
 	private static VentanaGrafica ventana;
 	private static int puntos;
 	// v2
-	// Circulo[] -array
 	private static GrupoCirculos circulos;
 	
 	public static void main(String[] args) {
@@ -80,7 +79,7 @@ public class ClickerV2ConContenedora {
 	private static Circulo hayClickEnAlgunCirculo( GrupoCirculos circulos ) {
 		Point hayClick = ventana.getRatonClicado();
 		if (hayClick!=null) {
-			Circulo hayCirculoClicado = circulos.hayClickEnAlgunCirculo(hayClick);
+			Circulo hayCirculoClicado = circulos.encuentraCirculoEnPunto(hayClick);
 			if (hayCirculoClicado==null) {  // Ningún círculo pulsado
 				puntos -= 1000;
 				ventana.setMensaje( "Puntos: " + puntos );
