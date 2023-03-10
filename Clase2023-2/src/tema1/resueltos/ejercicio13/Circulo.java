@@ -10,8 +10,8 @@ import utils.ventanas.ventanaBitmap.VentanaGrafica;
 public class Circulo {
 
 	private static float grosor = 1.0f; // grosor del círculo, en píxeles
-	public static final int RADIO_MINIMO = 10; // Radio mínimo de círculo aleatorio
-	public static final int RADIO_MAXIMO = 20; // Radio máximo de círculo aleatorio
+	public static final int RADIO_MINIMO = 20; // Radio mínimo de círculo aleatorio
+	public static final int RADIO_MAXIMO = 40; // Radio máximo de círculo aleatorio
 	public static final int X_MAXIMA = 500; // X máxima de círculo aleatorio
 	public static final int Y_MAXIMA = 300; // Y máxima de círculo aleatorio
 	public static final int VEL_MINIMA = 100; // vel. mínima de círculo aleatorio (tanto en horizontal como en vertical)
@@ -246,6 +246,8 @@ public class Circulo {
 			colorFondoConTransparencia = new Color( colorRelleno.getRed(), colorRelleno.getGreen(), colorRelleno.getBlue(), opacidad );
 		}
 		v.dibujaCirculo( xCentro, yCentro, radioEnPixels, 2.0f, colorBorde, colorFondoConTransparencia );
+		// v3
+		v.dibujaImagen( "dr_strange.png", xCentro, yCentro, (int)radioEnPixels*2, (int)radioEnPixels*2, 1.0, 0.0, opacidad/255f );
 	}
 
 	/** Informa si el círculo contiene un punto de la ventana
