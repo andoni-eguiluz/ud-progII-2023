@@ -296,7 +296,7 @@ public class Bloque {
 			boolean solapeHoriz = (x-ancho/2 >= bloque2.x-bloque2.ancho/2 && x+ancho/2 <= bloque2.x+bloque2.ancho/2) ||
 					(x-ancho/2 <= bloque2.x-bloque2.ancho/2 && x+ancho/2 >= bloque2.x+bloque2.ancho/2);  // Se solapan en toda su anchura
 			boolean solapeVert = (y-alto/2 >= bloque2.y-bloque2.alto/2 && y+alto/2 <= bloque2.y+bloque2.alto/2) ||
-					(y-alto/2 <= bloque2.y-bloque2.alto/2 && y+alto/2 >= bloque2.y+bloque2.alto/2);  // Se solapan en toda su anchura
+					(y-alto/2 <= bloque2.y-bloque2.alto/2 && y+alto/2 >= bloque2.y+bloque2.alto/2);  // Se solapan en toda su altura
 			if (solapeHoriz) {  // Choque vertical
 				double moduloChoque = alto/2+bloque2.alto/2 - Math.abs(difY);
 				if (difY<0) moduloChoque = -moduloChoque;

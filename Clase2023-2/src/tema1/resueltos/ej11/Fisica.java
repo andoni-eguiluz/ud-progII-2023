@@ -176,18 +176,19 @@ public class Fisica {
 		Point2D choqueXY = choque.toPoint();
 		double difVelsX = objeto.getVelX() - objeto2.getVelX();
 		double difVelsY = objeto.getVelY() - objeto2.getVelY();
-		if (Fisica.igualACero(choqueXY.getX()) || (!Fisica.igualACero(choqueXY.getY()) && Math.abs(difVelsY) > Math.abs(difVelsX))) {  // Choque vertical
+		// System.out.println( "Choque " + choque + " / " + choqueXY + " difsVelsX " + difVelsX + " difsVelsY " + difVelsY );
+		if (Fisica.igualACero(choqueXY.getX()) || Math.abs(choqueXY.getX()) > Math.abs(choqueXY.getY())) {  // Choque vertical
 			double vel12 = objeto.getVelY();
 			double vel21 = objeto2.getVelY();
 			double[] velChoque = Fisica.calcChoque( objeto.getVolumen(), vel12, objeto2.getVolumen(), vel21 );
-			// System.out.println( "VER " + java.util.Arrays.toString( velChoque) + "   (" + vel12 + "," + vel21 + ")" );
+			// System.out.println( "VER " + java.util.Arrays.toString( velChoque ) + "   (" + vel12 + "," + vel21 + ")" );
 			objeto.setVelY( velChoque[0] );
 			objeto2.setVelY( velChoque[1] );
 		} else {  // Choque horizontal
 			double vel12 = objeto.getVelX();
 			double vel21 = objeto2.getVelX();
 			double[] velChoque = Fisica.calcChoque( objeto.getVolumen(), vel12, objeto2.getVolumen(), vel21 );
-			// System.out.println( "HOR " + java.util.Arrays.toString( velChoque) + "   (" + vel12 + "," + vel21 + ")" );
+			// System.out.println( "HOR " + java.util.Arrays.toString( velChoque ) + "   (" + vel12 + "," + vel21 + ")" );
 			objeto.setVelX( velChoque[0] );
 			objeto2.setVelX( velChoque[1] );
 		}
@@ -340,9 +341,11 @@ public class Fisica {
 	public static void calcChoqueConBorde( VentanaGrafica ventana, Bloque bloque, double milis ) {
 		if (bloque.chocaBordeVertical(ventana)) {
 			bloque.setVelY( -bloque.getVelY() );
+			// System.out.println( "CHOQUE VERT nueva vel y " + bloque.getVelY() );
 		}
 		if (bloque.chocaBordeHorizontal(ventana)) {
 			bloque.setVelX( -bloque.getVelX() );
+			// System.out.println( "CHOQUE HORIZ nueva vel x " + bloque.getVelX() );
 		}
 	}
 

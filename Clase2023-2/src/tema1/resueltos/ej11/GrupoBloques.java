@@ -92,7 +92,7 @@ public class GrupoBloques {
 	 */
 	public void choqueBordes( VentanaGrafica v, double milisEntreFrames ) {
 		for (Bloque bloque : lBloques) {
-			if (bloque.chocaBordeVertical(v) || bloque.chocaBordeVertical(v)) {
+			if (bloque.chocaBordeHorizontal(v) || bloque.chocaBordeVertical(v)) {
 				Fisica.calcChoqueConBorde(v, bloque, milisEntreFrames );
 			}
 		}
