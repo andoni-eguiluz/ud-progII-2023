@@ -1,62 +1,94 @@
 package tema1.resueltos;
 
+/** Clase que define usuarios de redes sociales (ejercicio 1.0.i)
+ * @author andoni.eguiluz at ingenieria.deusto.es
+ */
 public class UsuarioRedSocial {
-	private String nombre; // COMPOSICIÓN
-	private int seguidores;
+
+	// ATRIBUTOS Y MÉTODOS STATIC (de clase)
 	
-	/** Crea un usuario con nombre vacío ("") y 0 seguidores
-	 */
-	public UsuarioRedSocial() {
-		nombre = "";
+	// Posibles atributos static (de clase, solo una vez)
+	public static int numUsuarios = 0;
+	public static void recalcularUsuarios() {
+		//...
+		// this.nombre = "";  No existe this - no se puede usar en un método static
 	}
+
 	
+	// ATRIBUTOS Y MÉTODOS NO STATIC (de objeto)
+	
+	private String nombre;  // COMPOSICIÓN
+	private int seguidores;
+	// ... fechaAlta, direccion, correoElectronico...
+	
+	// Constructores (pueden estar sobrecargados)
+	
+	// Labor del constructor:
 	// 1.- Crea memoria (implícito)
 	// 2.- Inicialización de atributos (por defecto o explícito arriba)
 	// 3.- Ejecutar código de contructor
 	// 4.- Devuelve referencia del objeto creado
 
-	/** Crea un nuevo usuario
-	 * @param nombre	Nombre del nuevo usuario
-	 * @param seguidores	Nº de seguidores de ese usuario
+	/** Crea un usuario nuevo con nombre vacío ("") y 0 seguidores
+	 */
+	public UsuarioRedSocial() {
+		nombre = "";
+		UsuarioRedSocial.numUsuarios++;
+	}
+	
+	/** Crea un usuario nuevo
+	 * @param nombre	Nombre del usuario
+	 * @param seguidores	Número de seguidores (en miles)
 	 */
 	public UsuarioRedSocial( String nombre, int seguidores ) {
 		this.nombre = nombre;
 		this.seguidores = seguidores;
 	}
 	
-	/** Crea un nuevo usuario con cero seguidores
-	 * @param nombre	Nombre de ese usuario
+	/** Crea un usuario nuevo con 0 seguidores
+	 * @param nombre	Nombre de este usuario
 	 */
 	public UsuarioRedSocial( String nombre ) {
 		this.nombre = nombre;
-		// seguidores = 0;
+		this.seguidores = 0;  // podría no ponerse porque el atributo por defecto se inicializa a 0
 	}
 	
-	/** Cambia el número de seguidores.
-	 * Produce un error en consola si es negativo y no se cambia
-	 * @param seguidores	Nuevo número de seguidores, en miles
+	/** Devuelve el nombre
+	 * @return	Nombre actual del usuario
 	 */
-	public void setSeguidores( int seguidores ) {
+	public String getNombre() {
+		return this.nombre;
+	}
+	
+	/** Devuelve los seguidores
+	 * @return	Número actual de seguidores, en miles
+	 */
+	public int getSeguidores() {
+		return this.seguidores;
+	}
+	
+	/** Modifica los seguidores. Indica un error y no los modifica si son negativos
+	 * @param seguidores	Nuevo número de seguidores del usuario, en miles (número no negativo)
+	 */
+	public void setSeguidores(int seguidores) {
 		if (seguidores < 0) {
-			System.err.println( "Error: no pueden ser negativos los seguidores" );
+			System.err.println( "Error: los seguidores deben ser positivos o cero" );
 		} else {
 			this.seguidores = seguidores;
 		}
 	}
-	
-	public String getNombre() {
-		return nombre;
-	}
 
-	/** Devuelve los seguidores
-	 * @return	Seguidores, en miles
+	/** Convierte a String el usuario
+	 * @return	String con nombre de usuario, un tabulador y número de seguidores
 	 */
-	public int getSeguidores() {
-		return seguidores;
-	}
-
 	public String toString() {
-		return this.nombre + " " + this.seguidores;
+		return this.nombre + "\t" + seguidores;  // puede ponerse this.seguidores o seguidores, da igual
+	}
+	
+	/** Saca a consola la información del usuario (nombre y seguidores)
+	 */
+	public void sacarAConsola() {
+		System.out.println( toString() );  // se puede llamar a unos métodos desde otros  (reutilizar)
 	}
 	
 	/** Compara el usuario para ver si la fama (número de seguidores) es menor o mayor
@@ -67,12 +99,4 @@ public class UsuarioRedSocial {
 		return this.seguidores < usuario2.seguidores;
 	}
 	
-	/** Compara dos usuarios entre sí en función de su fama (número de seguidores)
-	 * @param u1	usuario 1
-	 * @param u2	usuario 2
-	 * @return	true si el usuario 1 tiene menos seguidores que el usuario 2, false en caso contrario
-	 */
-	public static boolean comparaFama( UsuarioRedSocial u1, UsuarioRedSocial u2 ) {
-		return u1.seguidores < u2.seguidores;
-	}
 }
