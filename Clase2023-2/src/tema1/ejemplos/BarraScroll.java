@@ -32,11 +32,8 @@ public class BarraScroll {
 	private static void cicloInteraccion() {
 		while (!vent.estaCerrada()) {
 			dibujaTodo();
-			Point puls = vent.getRatonPulsado();
+			Point puls = vent.getRatonClicado();
 			if (puls!=null) {
-				while (vent.getRatonPulsado()!=null) {  // Esperamos a que el botón se suelte
-					vent.espera(20);
-				}
 				// Comprobamos si la pulsación está en un botón de scroll
 				if (botonUp.contains(puls)) {  // Sí, es el botón de arriba
 					numPrimeraOpc--;
@@ -46,6 +43,18 @@ public class BarraScroll {
 					numPrimeraOpc++;
 					if (numPrimeraOpc>=ejemploDatos.length) numPrimeraOpc = ejemploDatos.length-1;  // Que no se salga nunca
 					dibujaTodo();
+				} else { // Comprobamos si la pulsación está en una opción del menú
+					int yTexto = 30;
+					for (int i=numPrimeraOpc; i<numPrimeraOpc+numOpcVisibles; i++) {
+						if (i<ejemploDatos.length) {
+							Rectangle opcion = new Rectangle( 40, yTexto-20, 400, 30 );
+							if (opcion.contains( puls )) {
+								System.out.println( "Pulsado botón " + ejemploDatos[i] );
+								break;
+							}
+						}
+						yTexto += 30;
+					}
 				}
 			}
 			vent.espera(20);
