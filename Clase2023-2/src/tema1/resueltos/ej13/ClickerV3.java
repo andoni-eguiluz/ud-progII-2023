@@ -1,4 +1,4 @@
-package tema1.resueltos.ejercicio13;
+package tema1.resueltos.ej13;
 
 import java.awt.Font;
 import java.awt.Point;
