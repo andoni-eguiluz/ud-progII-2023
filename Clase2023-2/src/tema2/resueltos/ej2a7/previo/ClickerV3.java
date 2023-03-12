@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.Point;
 import utils.ventanas.ventanaBitmap.VentanaGrafica;
 
-/** Ejercicio 1.13 resuelto (última versión del clicker con movimiento de las bolas)
+/** Ejercicio 2a.7 (última versión del 1.13 preparada para modificar con herencia)
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class ClickerV3 {
