@@ -101,5 +101,17 @@ public class Planeta extends Esfera {
 	public void animar( long milis ) {
 		rotar( Math.PI * 2 * milis / milisParaGiroCompleto ); // Ojo a poner el double el primero que si no se opera en longs
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Planeta) {
+			Planeta p2 = (Planeta) obj;
+			return this.nombre.equals(p2.nombre) && this.getxCentro()==p2.getxCentro() && this.getyCentro()==p2.getyCentro() &&
+					this.getRadio()==p2.getRadio();
+		}
+		return false;
+	}
+
+	
 	
 }
