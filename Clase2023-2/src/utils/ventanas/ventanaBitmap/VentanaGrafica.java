@@ -936,7 +936,6 @@ public class VentanaGrafica {
 		double xIni = x - Math.cos(angulo)*largo/2;
 		double yIni = y - Math.sin(angulo)*largo/2;
 		dibujaFlecha( xIni, yIni, xDest, yDest, grosor, color, largoFl );
-		System.out.println( x + "," + y + " --> " + xIni + "," + yIni );
 	}
 	
 	/** Dibuja una línea azul en la ventana
