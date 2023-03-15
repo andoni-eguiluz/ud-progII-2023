@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.*;
 
 /** Clase ventana sencilla para dibujado directo a la ventana
+ * v 1.2.3 - Añadido dibujado de flecha con ángulo
  * v 1.2.2 - Añadido método getRatonClicado. Mejorado método esperaAClick para devolver coordenada de click de ratón
  * v 1.2.1 - Incorpora posibilidad de cambiar el color de fondo y el soporte para clic derecho y central  (gracias a https://github.com/LNDF)
  * v 1.2 - Incorpora posibilidad de cambio de zoom y offset (desplamiento) de origen
@@ -918,6 +919,24 @@ public class VentanaGrafica {
 		graphics.drawLine( (int)Math.round(calcX(x2)), (int)Math.round(calcY(y2)), 
 				(int)Math.round(calcX(x2)+largoFl*Math.cos(angulo2)), (int)Math.round(calcY(y2)+largoFl*Math.sin(angulo2)) );
 		if (dibujadoInmediato) repaint();
+	}
+	
+	/** Dibuja una flecha en la ventana
+	 * @param x	Coordenada x de punto central
+	 * @param y	Coordenada y de punto central
+	 * @param angulo	Ángulo de la flecha (en radianes)
+	 * @param largo	Longitud de la flecha (en píxeles)
+	 * @param largoFl	Pixels de largo del dibujo de flecha del final
+	 * @param grosor	Grueso de la línea (en píxels)
+	 * @param color  	Color de la línea
+	 */
+	public void dibujaFlecha( double x, double y, double angulo, double largo, int largoFl, float grosor, Color color ) {
+		double xDest = x + Math.cos(angulo)*largo/2;
+		double yDest = y + Math.sin(angulo)*largo/2;
+		double xIni = x - Math.cos(angulo)*largo/2;
+		double yIni = y - Math.sin(angulo)*largo/2;
+		dibujaFlecha( xIni, yIni, xDest, yDest, grosor, color, largoFl );
+		System.out.println( x + "," + y + " --> " + xIni + "," + yIni );
 	}
 	
 	/** Dibuja una línea azul en la ventana
