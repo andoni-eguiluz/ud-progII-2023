@@ -103,15 +103,14 @@ public class Planeta extends Esfera {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Planeta) {
-			Planeta p2 = (Planeta) obj;
-			return this.nombre.equals(p2.nombre) && this.getxCentro()==p2.getxCentro() && this.getyCentro()==p2.getyCentro() &&
-					this.getRadio()==p2.getRadio();
+	public boolean equals(Object o2) {
+		if (o2 instanceof Planeta) {
+			Planeta p2 = (Planeta) o2;
+			return nombre.equals(p2.nombre) && getxCentro()==p2.getxCentro() && 
+					getyCentro()==p2.getyCentro() && getRadio()==p2.getRadio();
 		}
 		return false;
 	}
 
-	
 	
 }
