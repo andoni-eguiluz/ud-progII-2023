@@ -7,10 +7,6 @@ import java.util.Random;
 import utils.ventanas.ventanaBitmap.VentanaGrafica;
 
 /** Juego de alinear pelotas en un tablero imaginario de bolas de tres colores
- * Versión 6 - Mejora la legibilidad de código de la versión 5 y añade las siguientes mejoras:
- * - No se permite la salida de pantalla del drag de pelota
- * - Animación de estrellas
- * - Eliminación de parpadeo en el dibujado
  * @author andoni.eguiluz at ingenieria.deusto.es
  */
 public class JuegoPelotas {
@@ -31,8 +27,8 @@ public class JuegoPelotas {
 	private static int numSeguidasAQuitar = 3;  // Nº mínimo de pelotas seguidas del mismo color que se quitan
 	private static final int TAMANYO_ESTRELLA = 50;  // Tamaño estándar de la estrella bonus
 	private static VentanaGrafica vent;
-	private static GrupoPelotas grupoPelotas;
-	private static GrupoEstrellas grupoEstrellas;
+	private static GrupoOJ grupoPelotas;
+	private static GrupoOJ grupoEstrellas;
 	
 	public static void main(String[] args) {
 		init();
@@ -45,7 +41,8 @@ public class JuegoPelotas {
 		while (!vent.estaCerrada() && juegoActivo) {  // Mientras siga jugando...
 			Point puls = vent.getRatonPulsado(); // Controlamos la interacción:
 			if (puls!=null) { // No hay interacción - nada que hacer
-				Pelota pDentro = grupoPelotas.buscaPuntoEnPelotas( puls );
+				// if (grupoPelotas.buscaPuntoEnObjetoJuegos(puls) instanceof Pelota) // en este caso no hace falta
+				Pelota pDentro = (Pelota) grupoPelotas.buscaPuntoEnObjetoJuegos( puls );
 				if (pDentro!=null) { // El punto clicado está dentro de la pelota: a dibujar 
 					Point origen = new Point( (int)pDentro.getX(), (int)pDentro.getY() );
 					Point ultDrag = puls;
@@ -83,8 +80,8 @@ public class JuegoPelotas {
 		vent = new VentanaGrafica( anchoTablero * ANCHO_CASILLA, altoTablero * ALTO_CASILLA, "Juego" );
 		vent.setDibujadoInmediato( false );  // Añadido para evitar flickering en pantalla
 		Random random = new Random();
-		grupoPelotas = new GrupoPelotas( numPelotas );
-		grupoEstrellas = new GrupoEstrellas( numMaxEstrellas );
+		grupoPelotas = new GrupoOJ( numPelotas );
+		grupoEstrellas = new GrupoOJ( numMaxEstrellas );
 		for (int i=0; i<numPelotas; i++) {
 			int radio = random.nextInt(RADIO_MAXIMO - RADIO_MINIMO + 1) + RADIO_MINIMO;
 			Color color = COLORES_PELOTA[ random.nextInt( COLORES_PELOTA.length ) ];
@@ -95,8 +92,8 @@ public class JuegoPelotas {
 				p.setX( xCentroDeCasilla(fila) ); // O r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2) );
 				p.setY( yCentroDeCasilla(col) ); // O r.nextInt(5) * ALTO_CASILLA + (ALTO_CASILLA/2) );
 				// boolean estaYa = grupo.buscaPelota(p)==-1;
-			} while (grupoPelotas.buscaPelotaEquals(p)!=-1); // Importante que este método compare con equals
-			grupoPelotas.anyadePelota( p );
+			} while (grupoPelotas.buscaObjetoJuegoEquals(p)!=-1); // Importante que este método compare con equals
+			grupoPelotas.anyadeObjetoJuego( p );
 		}
 		dibujaTablero();
 	}
@@ -111,8 +108,8 @@ public class JuegoPelotas {
 		vent.borra();
 		grupoPelotas.dibuja( vent );
 		// Añadido para animación de las estrellas
-		for (int i=0; i<grupoEstrellas.getNumEstrellas(); i++) {
-			Estrella estrella = grupoEstrellas.getEstrella( i );
+		for (int i=0; i<grupoEstrellas.getNumObjetosJuego(); i++) {
+			Estrella estrella = (Estrella) grupoEstrellas.getObjetoJuego( i );
 			estrella.anima( TIEMPO_FOTOGRAMA );
 		}
 		grupoEstrellas.dibuja( vent );
@@ -136,10 +133,10 @@ public class JuegoPelotas {
 	}
 	// Devuelve la pelota que esté en la casilla (fila,columna) indicada, null si no hay ninguna
 	private static Pelota estaPelotaEnCasilla( int fila, int col ) {
-		for (int i=0; i<grupoPelotas.getNumPelotas(); i++) {
-			Pelota p = grupoPelotas.getPelota(i);
-			if (Math.abs(p.getX()-xCentroDeCasilla(fila))<DIST_MARGEN_CASILLA && Math.abs(p.getY()-yCentroDeCasilla(col))<DIST_MARGEN_CASILLA) {  // Calculamos cercanía con margen de precisión de doubles
-				return p;
+		for (int i=0; i<grupoPelotas.getNumObjetosJuego(); i++) {
+			ObjetoJuego oj = grupoPelotas.getObjetoJuego(i);
+			if (Math.abs(oj.getX()-xCentroDeCasilla(fila))<DIST_MARGEN_CASILLA && Math.abs(oj.getY()-yCentroDeCasilla(col))<DIST_MARGEN_CASILLA) {  // Calculamos cercanía con margen de precisión de doubles
+				return (Pelota) oj;
 			}
 		}
 		return null;
@@ -165,8 +162,8 @@ public class JuegoPelotas {
 	private static void quitarPelotasSiSeguidas() {
 		Pelota tableroLogica[][] = new Pelota[altoTablero][anchoTablero];  // Estructura de las pelotas
 		boolean tableroAQuitar[][] = new boolean[altoTablero][anchoTablero];  // Marcas de las que hay que borrar
-		for (int i=0; i<grupoPelotas.getNumPelotas(); i++) {
-			Pelota pelota = grupoPelotas.getPelota( i );
+		for (int i=0; i<grupoPelotas.getNumObjetosJuego(); i++) {
+			Pelota pelota = (Pelota) grupoPelotas.getObjetoJuego( i );
 			int fila = getFilaCercana( pelota.getX() );
 			int col = getColCercana( pelota.getY() );
 			tableroLogica[fila][col] = pelota;
@@ -218,7 +215,7 @@ public class JuegoPelotas {
 			for (int col=0; col<anchoTablero; col++) {
 				if (tableroAQuitar[fila][col]) {
 					ultimaQuitada = tableroLogica[fila][col];
-					grupoPelotas.borraPelota( ultimaQuitada );
+					grupoPelotas.borraObjetoJuego( ultimaQuitada );
 					numQuitadas++;
 				}
 			}
@@ -228,7 +225,7 @@ public class JuegoPelotas {
 				// TODO Calcular la puntuación
 				// Añadimos una estrella donde esté la última pelota quitada, si se han eliminado más de numParaBonus pelotas
 				Estrella estrella = new Estrella( ultimaQuitada.getX(), ultimaQuitada.getY(), TAMANYO_ESTRELLA, TAMANYO_ESTRELLA );
-				grupoEstrellas.anyadeEstrella( estrella );
+				grupoEstrellas.anyadeObjetoJuego( estrella );
 			}
 			dibujaTablero(); 
 		}

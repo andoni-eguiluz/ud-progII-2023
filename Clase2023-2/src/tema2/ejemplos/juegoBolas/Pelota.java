@@ -21,13 +21,12 @@ public class Pelota extends ObjetoJuego {
 	 * @param color	Su color
 	 */
 	public Pelota( double x, double y, int radio, Color color ) {
+		// super(); // Esto ocurre implícitamente si el programador no lo hace
+		super( x, y ); // Delego el trabajo de inicialización de x e y al constructor de super
 		this.color = color;
-		this.x = x;  // alternativa this.setX( x );
-		this.y = y;
 		this.radio = radio;
 	}
-	
-	
+
 	/** Devuelve radio de la pelota
 	 * @return	Radio en píxels
 	 */
@@ -125,7 +124,8 @@ public class Pelota extends ObjetoJuego {
 	
 	@Override
 	public String toString() {
-		return "(" + x + "," + y + ") R" + radio + " C<" + color.getRed()+","+color.getGreen()+","+color.getBlue()+">";
+		// Nota: Ejemplo de reutilización de código de clase padre - super.toString()
+		return super.toString() + " R" + radio + " C<" + color.getRed()+","+color.getGreen()+","+color.getBlue()+">";
 	}
 	
 	@Override

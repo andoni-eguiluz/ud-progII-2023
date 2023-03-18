@@ -1,13 +1,18 @@
 package tema2.ejemplos.juegoBolas;
 
-import java.awt.Color;
 import java.awt.Point;
-
 import utils.ventanas.ventanaBitmap.VentanaGrafica;
 
-public abstract class ObjetoJuego {
+public abstract class ObjetoJuego /* extends Object */ {
 	protected double x;
 	protected double y;
+	
+	// ObjetoJuego() se define automáticamente si no hay otro
+
+	public ObjetoJuego( double x, double y ) {
+		this.x = x;
+		this.y = y;
+	}
 	
 	/** Devuelve la coordenada x del centro del objeto de juego, con respecto a la pantalla
 	 * @return	Coordenada x en píxels
@@ -46,25 +51,9 @@ public abstract class ObjetoJuego {
 	 */
 	public abstract boolean contieneA( Point p );
 
+	@Override
+	public String toString() {
+		return "(" + x + "," + y + ")";
+	}
 	
-	/** Método de prueba de conceptos de OO
-	 * No relacionado con el juego
-	 * @param args	No utilizado
-	 */
-	public static void main(String[] args) {
-		// ObjetoJuego oj = new ObjetoJuego();  // Esto ya no se puede hacer cuando la clase es abstracta
-		ObjetoJuego oj = new tema2.ejemplos.juegoBolas.Pelota(10, 10, 10, Color.red);  // Polimorfismo de datos
-		System.out.println( oj.getX() );
-		System.out.println( oj );  // ¿A qué toString se llama?
-		Pelota p = (Pelota) oj;
-		System.out.println( p.getRadio() );
-		sacaPuntosEstrella(oj);
-	}
-	private static void sacaPuntosEstrella( ObjetoJuego oj ) {
-		if (oj instanceof Estrella) {
-			Estrella e = (Estrella) oj;
-			System.out.println( e.getPuntos() );
-		}
-	}
-
 }

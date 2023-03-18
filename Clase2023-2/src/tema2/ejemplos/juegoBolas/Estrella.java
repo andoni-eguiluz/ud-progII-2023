@@ -9,10 +9,8 @@ public class Estrella extends ObjetoJuego {
 	private int tamanyo; // Tamaño de la estrella (píxels de alto y de ancho)
 	private int puntos;
 	
-	
 	public Estrella(double x, double y, int tamanyo, int puntos) {
-		this.x = x;
-		this.y = y;
+		super( x, y );
 		this.tamanyo = tamanyo;
 		this.puntos = puntos;
 	}
