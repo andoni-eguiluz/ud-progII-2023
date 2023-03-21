@@ -1,7 +1,6 @@
 package tema2b.basicos;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Persona extends Object implements Comparable<Persona> { // implements Comparable {
 	
