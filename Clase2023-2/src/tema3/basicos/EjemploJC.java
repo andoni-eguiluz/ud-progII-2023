@@ -118,6 +118,5 @@ public class EjemploJC {
 		// 2.- Hacer todo lo mismo que hemos probado en este ejemplo
 		// con una clase Pelicula en lugar de con Strings
 		
-		
 	}
 }
