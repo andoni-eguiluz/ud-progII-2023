@@ -7,6 +7,83 @@ import java.util.*;
  */
 public class EjemploJC {
 	public static void main(String[] args) {
+		pruebasJCconStrings();
+		pruebasJCconClasesPropias();
+	}
+
+	private static void pruebasJCconClasesPropias() {
+		// TODO igual que pruebasJCconStrings pero con clase Pelicula que contenga nombre de película
+		Pelicula[] peliculas = {
+			new Pelicula("The whale"), new Pelicula("Todo a la vez en todas partes"), new Pelicula("Elvis"),
+			new Pelicula("Avatar 2"), new Pelicula("Pinocho"),
+			new Pelicula("Todo a la vez en todas partes"), new Pelicula("Elvis"), new Pelicula("Avatar 2"),
+			new Pelicula("Todo a la vez en todas partes"), new Pelicula("Elvis"), new Pelicula("Avatar 2"),
+			new Pelicula("Todo a la vez en todas partes"), new Pelicula("Elvis"), 
+			new Pelicula("Todo a la vez en todas partes"), new Pelicula("Avatar 2"),
+			new Pelicula("Todo a la vez en todas partes"), new Pelicula("Avatar 2"),
+			new Pelicula("Todo a la vez en todas partes"), new Pelicula("Avatar 2"),
+			new Pelicula("Todo a la vez en todas partes"), 
+		};
+		System.out.println();
+		// 1.- Búsqueda en arraylist
+		ArrayList<Pelicula> arraylist = new ArrayList<>();
+		for (Pelicula p : peliculas) {
+			arraylist.add( p );
+		}
+		System.out.println( "ArrayList: " + arraylist );
+		if (arraylist.contains( new Pelicula("Elvis") )) {
+			System.out.println( "Elvis está en la lista" );
+		} else {
+			System.out.println( "Elvis NO está en la lista" );
+		}
+		// 2.- Inserción en un HashSet (pasaría lo mismo como clave en un HashMap)
+		HashSet<Pelicula> s1 = new HashSet<>();
+		for (Pelicula p : peliculas) {
+			s1.add( p );
+		}
+		System.out.println( "HashSet: " + s1 );
+		System.out.println( (new Pelicula("Elvis")).hashCode() );  // Las tripas del hashset
+		System.out.println( (new Pelicula("Elvis")).hashCode() );  // A ver otra vez...??
+		if (s1.contains( new Pelicula("Elvis") )) {
+			System.out.println( "Elvis está en el set" );
+		} else {
+			System.out.println( "Elvis NO está en el set");
+		}
+		// 3.- Inserción en un TreeSet (pasaría lo mismo como clave en un TreeMap)
+		TreeSet<Pelicula> s2 = new TreeSet<>();
+		for (Pelicula p : peliculas) {
+			s2.add( p );
+		}
+		System.out.println( "TreeSet: " + s2 );
+		if (s2.contains( new Pelicula("Elvis") )) {
+			System.out.println( "Elvis está en el set" );
+		} else {
+			System.out.println( "Elvis NO está en el set");
+		}
+		
+		// 4.- Mapas con clave Pelicula (no funcionarán si no funcionan los sets)
+		HashMap<Pelicula,Integer> mapa = new HashMap<>();
+		for (Pelicula peli : peliculas) {
+			if (mapa.containsKey(peli)) {
+				mapa.replace( peli, mapa.get(peli) + 1 );
+			} else {
+				mapa.put( peli, Integer.valueOf(1) );
+			}
+		}
+		System.out.println( "HashMap: " + mapa );
+		
+		TreeMap<Pelicula,Contador> mapa2 = new TreeMap<>();
+		for (Pelicula peli : peliculas) {
+			if (!mapa2.containsKey(peli)) {
+				mapa2.put( peli, new Contador() );
+			} else {
+				mapa2.get( peli ).inc();
+			}
+		}
+		System.out.println( "TreeMap: " + mapa2 );
+	}
+	
+	private static void pruebasJCconStrings() {
 		String[] peliculas = {
 			"The whale", "Todo a la vez en todas partes", "Elvis", "Avatar 2", "Pinocho",
 			"Todo a la vez en todas partes", "Elvis", "Avatar 2",
@@ -18,105 +95,123 @@ public class EjemploJC {
 			"Todo a la vez en todas partes", 
 		};
 		
-		ArrayList<String> l = new ArrayList<>();
-		for (String peli : peliculas) {
-			l.add( peli );
+		// ¿Tipos de listas? 2 clases implementan listas:
+		// 1.- ArrayList - implementada con un array, sin tamaño fijo, puede crecer, insertar/borrar, con repetición
+		//     acceso por INDICE - 0, ... n-1
+		ArrayList<String> arraylist = new ArrayList<>();
+		for (String p : peliculas) {
+			arraylist.add( p );
 		}
-		System.out.println( l );
-		System.out.println( l.get(0) );
-		// l.add( 25, "prueba" );
-		if (l.contains( "Elvis" )) {
+		System.out.println( arraylist );
+		if (arraylist.contains( "Elvis" )) {
 			System.out.println( "Elvis está en la lista" );
 		}
 		
-		LinkedList<String> l2 = new LinkedList<>();
-		for (String peli : peliculas) {
-			l2.add( peli );
+		// 2.- LinkedList. Internamente es una lista enlazada
+		LinkedList<String> linkedlist = new LinkedList<>();
+		for (String p : peliculas) {
+			linkedlist.add( p );
 		}
-		System.out.println( l2 );
-		System.out.println( l2.get(0) );
-		// l.add( 25, "prueba" );
-		if (l2.contains( "Elvis" )) {
+		System.out.println( linkedlist );
+		if (linkedlist.contains( "Elvis")) {
 			System.out.println( "Elvis está en la lista" );
 		}
 		
-		List<String> lista = l2; // new List<>();
-		Collection<String> coleccion = l2;
+		// Mejor LinkedList cuando solo se inserta/borra en los extremos. En cualquier otro caso, mejor ArrayList.
 		
-		HashSet<String> set1 = new HashSet<>();
-		for (String peli : peliculas) {
-			set1.add( peli );
-		}
-		System.out.println( set1 );
-//		System.out.println( set1.get(0) );
-		// l.add( 25, "prueba" );
-		if (set1.contains( "Elvis" )) {
-			System.out.println( "Elvis está en la lista" );
-		}
-		System.out.println( "Elvis".hashCode() );
-		System.out.println( "a".hashCode() );
+		List<String> lista = arraylist; // No se puede instanciar, es interface new List<>();
+		// Hereda de Collection (toda List es una Collection)
+		Collection<String> coleccion = linkedlist; // Interfaz de colecciones lineales de elementos: listas y ...
 
-		TreeSet<String> set2 = new TreeSet<>();
-		for (String peli : peliculas) {
-			set2.add( peli );
+		
+		// SETS - colecciones pero no listas
+		Set<String> set = null;  // Interfaz
+		// Estructura es lineal, pero NO admite repetición, NO TIENE ÍNDICES (no se puede sacar de "posición")
+		// Sí se puede recorrer  (también implementa Iterable)
+
+		// Implementación 1: hash (sin orden)
+		HashSet<String> s1 = new HashSet<>();
+		for (String p : peliculas) {
+			s1.add( p );
 		}
-		System.out.println( set2 );
-		if (set2.contains( "Elvis" )) {
+		System.out.println( s1 );
+		System.out.println( "Elvis".hashCode() );  // Las tripas del hashset
+
+		// Implementación 2: tree (con orden natural)
+		TreeSet<String> s2 = new TreeSet<>();
+		for (String p : peliculas) {
+			s2.add( p );
+		}
+		System.out.println( s2 );
+		if (s2.contains( "Elvis")) {
 			System.out.println( "Elvis está en la lista" );
 		}
-		for (String valor : set2) {
-			System.out.println( "Elemento " + valor );
+		for (String dato : s2) {
+			System.out.println( "Dato " + dato );
 		}
 		
-		// Mapa: contemos películas
+		// MAPAS
+		// Operaciones: put para meter / get para coger / containsKey si existe clave
 		// put(k,v) / v <- get(k) / containsKey(k)  / remove / replace ...
-		// 1.- Definir mapa
-		HashMap<String,Integer> mapa1 = new HashMap<>();
-		// 2.- Cargar datos en el mapa
+		// Clave?  (por qué busco)
+		// Dato/valor? (qué es lo que hay asociado a la clave)
+		// Contar votos -> Clave = nombre de la peli / Valor = Nº de votos
+		HashMap<String,Integer> mapa = new HashMap<>();
+		// Tarea: contar votos
 		for (String peli : peliculas) {
-			if (mapa1.containsKey(peli)) {
-				// int votaciones = mapa1.get( peli );  // unboxing
-				// mapa1.replace( peli, votaciones+1 );  // boxing
-				mapa1.replace( peli, mapa1.get(peli) + 1 );
+			if (mapa.containsKey(peli)) {
+				/* Todo esto hace java...
+				Integer numVotos = mapa.get( peli );
+				int numVotosInt = numVotos.intValue();  // unbox
+				numVotosInt = numVotosInt + 1;
+				Integer numVotos2 = Integer.valueOf( numVotosInt );  // box
+				// mapa.put( peli, numVotos2 ); igual que el replace
+				mapa.replace( peli, numVotos2 );
+				*/
+				// para esta sentencia:
+				mapa.replace( peli, mapa.get(peli) + 1 );  // Java hace automáticamente boxing y unboxing
 			} else {
-				mapa1.put( peli, 1 );  // boxing automático
-				// mapa1.put( peli, new Integer(1) );
+				mapa.put( peli, Integer.valueOf(1) );  // o new Integer(1) aunque es más recomendable el valueOf porque no crea nuevos objetos si ya existían
 			}
+			System.out.println( "  evolución mapa: " + mapa );
 		}
-		System.out.println( mapa1 );
-		// 3.- Recorrer mapa para buscar ganadora
-		int maxVotos = 0;
-		String nomPeliMax = "";
-		for (String clave : mapa1.keySet()) {
-			if (mapa1.get(clave) > maxVotos) {
-				nomPeliMax = clave;
-				maxVotos = mapa1.get(clave);
-			}
-		}
-		System.out.println( "Gana " + nomPeliMax + " con " + maxVotos );
-
-		// Mapa: contemos películas
-		// put(k,v) / v <- get(k) / containsKey(k)  / remove / replace ...
-		// 1.- Definir mapa
+		System.out.println( mapa );
+		
+		// Rehacer lo mismo con contadores mutables
+		// 1.- Crear mapa
 		TreeMap<String,Contador> mapa2 = new TreeMap<>();
-		// 2.- Cargar datos en el mapa
+		// 2.- Procesarlo (generar y recalcular contadores)
 		for (String peli : peliculas) {
-			if (mapa2.containsKey(peli)) {
-				mapa2.get(peli).inc();
+			if (!mapa2.containsKey(peli)) {
+				mapa2.put( peli, new Contador() );
 			} else {
-				mapa2.put( peli, new Contador() );  // boxing automático
-				// mapa1.put( peli, new Integer(1) );
+				mapa2.get( peli ).inc();
 			}
 		}
 		System.out.println( mapa2 );
+		// 3.- Recorrerlo (para buscar máximo)
+		int maxVotos = 0;
+		String peliMax = "";
+		for (String clave : mapa2.keySet()) {
+			System.out.println( " Película " + clave + " votos " + mapa2.get(clave) );
+			if (maxVotos < mapa2.get(clave).get()) {
+				maxVotos = mapa2.get(clave).get();
+				peliMax = clave;
+			}
+		}
+		System.out.println( "Ganadora: " + peliMax + " con " + maxVotos );
 		
-		// Ejercicios:
-		// 1.- Sacar de cada peli la lista de votantes (cogiendo índice de cada voto: 0, 1, 2, 3...) 
-		// Por ejemplo a "Elvis" la han votado la lista de votantes (0, 6, 9, 12)
-		HashMap<String,ArrayList<Integer>> mapaVotantes; // etc.
-
-		// 2.- Hacer todo lo mismo que hemos probado en este ejemplo
-		// con una clase Pelicula en lugar de con Strings
-		
+		// Ejercicio: sacar de cada peli los "jueces" que la han votado
+		Map<String,ArrayList<Integer>> mapaVotos = new TreeMap<>();
+		for (int i=0; i<peliculas.length; i++) {
+			String peli = peliculas[i];
+			if (!mapaVotos.containsKey(peli)) {
+				mapaVotos.put( peli, new ArrayList<>() );
+			}
+			mapaVotos.get( peli ).add( i );  // Añade el "juez"
+		}
+		for (String peli : mapaVotos.keySet()) {
+			System.out.println( "Película " + peli + " votada por: " + mapaVotos.get(peli) );
+		}
 	}
 }
