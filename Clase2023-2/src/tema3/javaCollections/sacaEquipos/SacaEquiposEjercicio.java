@@ -33,8 +33,12 @@ public class SacaEquiposEjercicio {
 		// 8.- Usar un mapa para sacar una lista de todos los enfrentamientos de cada equipo (con objeto Partido)
 	}
 	
+	private static void cierre() {
+		System.out.println( "Fin" );
+	}
+	
 	private static void procesa( ArrayList<String> lHtml ) {
-		System.out.println( "Html encontrado:" );
+		// System.out.println( "Html encontrado:" );
 		for (String html : lHtml) {
 //			System.out.println( html );
 		}
@@ -46,7 +50,7 @@ public class SacaEquiposEjercicio {
 //			System.out.println( equipo );
 			pruebasDeJC( equipo );
 		}
-		
+		cierre();
 	}
 	
 	private static String sacaEquipoDeHtml( String html ) {
