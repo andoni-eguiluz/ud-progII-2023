@@ -26,7 +26,7 @@ public class SacaEquiposEjercicio {
 		// 3.- Meter todos los equipos en un conjunto SIN ORDEN. Visualizarlos
 		// 3b.- Lo mismo en lugar de con string con una clase Equipo (que contenga el nombre). hashCode + equals
 		// 4.- Meter todos los equipos en un conjunto CON ORDEN (alfabético). Visualizarlos
-		// 4b.- Lo mismo en lugar de con string con una clase Equipo (que contenga el nombre). comparable
+		// 4b.- Lo mismo ordenando AL REVÉS en lugar de con string con una clase Equipo (que contenga el nombre). comparable
 		// 5.- Usar un mapa para contar el número de veces que aparece cada equipo (Integer)
 		// 6.- Usar un mapa para contar el número de veces que aparece cada equipo (Entero MUTABLE)
 		// 7.- Usar un mapa para sacar una lista de todos los enfrentamientos de cada equipo
