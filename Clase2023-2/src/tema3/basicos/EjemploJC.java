@@ -8,7 +8,7 @@ import java.util.*;
 public class EjemploJC {
 	public static void main(String[] args) {
 		pruebasJCconStrings();
-		pruebasJCconClasesPropias();
+		// pruebasJCconClasesPropias();
 	}
 
 	private static void pruebasJCconClasesPropias() {
@@ -207,8 +207,12 @@ public class EjemploJC {
 			String peli = peliculas[i];
 			if (!mapaVotos.containsKey(peli)) {
 				mapaVotos.put( peli, new ArrayList<>() );
+//				mapaVotos.get( peli ).add( i );  // Añade el "juez"
+//			} else {
+//				mapaVotos.get( peli ).add( i );  // Añade el "juez"
 			}
 			mapaVotos.get( peli ).add( i );  // Añade el "juez"
+			System.out.println( mapaVotos );
 		}
 		for (String peli : mapaVotos.keySet()) {
 			System.out.println( "Película " + peli + " votada por: " + mapaVotos.get(peli) );

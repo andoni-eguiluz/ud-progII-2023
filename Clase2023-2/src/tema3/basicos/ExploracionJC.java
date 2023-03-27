@@ -8,6 +8,7 @@ import java.util.*;
 import utils.ventanas.ventanaBitmap.VentanaGrafica;
 
 /** Clase de exploración de Java Collections
+ * Visualización de comportamiento de hash
  * Tiempo de ejecución de las estructuras al tener tamaño MUY GRANDE
  * @author andoni.eguiluz at ingenieria.deusto.es
  */
