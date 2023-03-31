@@ -55,7 +55,7 @@ public class SacaEquiposResuelto {
 		// 5.- Usar un mapa para contar el número de veces que aparece cada equipo (Integer)
 		if (m5.containsKey(equipo)) {  // Ya había aparecido - hay que incrementar el conteo
 			int contAntiguo = m5.get( equipo ).intValue();
-			m5.put( equipo, new Integer( contAntiguo + 1 ) );
+			m5.put( equipo, new Integer( contAntiguo + 1 ) );  //  replace
 		} else {  // Primera vez que aparece
 			m5.put( equipo, new Integer( 1 ) );
 		}
@@ -76,6 +76,7 @@ public class SacaEquiposResuelto {
 			} else {
 				m7.put( primerEquipoTarea7, new ArrayList<String>( Arrays.asList( equipo ) ) );
 			}
+			// System.out.println( "* " + m7 );
 			
 			// De otra manera sería así:
 			// ArrayList<String> lPartidos = m7.get(primerEquipo);
