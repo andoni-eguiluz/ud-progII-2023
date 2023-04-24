@@ -2,6 +2,7 @@ package tema4.conceptoFicheros.resueltos;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /** Ejemplo para aprender a hacer ficheros binarios y de texto
  * con una pequeña jerarquía Usuario / UsuarioDePago / UsuarioGratis
@@ -53,11 +54,32 @@ public class EjemploFicherosDeHerencia {
 			return null;
 		}
 	}
+	
 	private static void guardarUsuariosEnFicheroDeTexto() {
-		// TODO
+		try (PrintStream ps = new PrintStream( "usuarios.txt" )) {
+			for (Usuario usuario : lUsuarios) {
+				ps.println( usuario.aLinea() );
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println( "Error en gestión de fichero" );
+			e.printStackTrace();
+		}
 	}
+	
 	private static ArrayList<Usuario> cargarUsuariosEnFicheroDeTexto() {
-		// TODO
+		try (Scanner scanner = new Scanner( new FileInputStream( "usuarios.txt" ) )) {
+			ArrayList<Usuario> l = new ArrayList<>();
+			while (scanner.hasNextLine()) {
+				String linea = scanner.nextLine();
+				Usuario usuario = Usuario.crearDesdeLinea( linea );
+				if (usuario!=null) {
+					l.add( usuario );
+				}
+			}
+			return l;
+		} catch (FileNotFoundException e) {
+			
+		}
 		return null;
 	}
 	
@@ -66,9 +88,10 @@ public class EjemploFicherosDeHerencia {
 
 
 abstract class Usuario implements Serializable {
-	private String nick;
-	private Password password;
-	private String passwordAsteriscos;
+	private static final long serialVersionUID = 1L;
+	protected String nick;
+	protected Password password;
+	private /*transient*/ String passwordAsteriscos;
 	public Usuario(String nick, Password password) {
 		this.nick = nick; this.password = password;
 		passwordAsteriscos = password.toString();
@@ -76,9 +99,24 @@ abstract class Usuario implements Serializable {
 	public String getNick() { return nick; }
 	public Password getPassword() { return password; }
 	@Override public String toString() { return nick + " " + passwordAsteriscos; }
+	public abstract String aLinea();
+	
+	/** Crea un nuevo usuario desde una línea de texto, probando cada una de las clases hijas
+	 * UsuarioDePago y UsuarioGratis para comprobar a qué clase pertenecen los datos
+	 * @param linea	Línea de texto que contiene los datos de un usuario
+	 * @return	Nuevo usuario con datos de la línea de texto, null si hay cualquier error 
+	 */
+	public static Usuario crearDesdeLinea( String linea ) {
+		Usuario ret = UsuarioDePago.crearDesdeLinea( linea );
+		if (ret!=null) {
+			return ret;
+		}
+		ret = UsuarioGratis.crearDesdeLinea( linea );
+		return ret;
+	}
 }
 
-class UsuarioDePago extends Usuario implements Serializable {
+class UsuarioDePago extends Usuario { // implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private double cuota;
 	public UsuarioDePago(String nick, Password password, double cuota) {
@@ -87,6 +125,34 @@ class UsuarioDePago extends Usuario implements Serializable {
 	}
 	public double getCuota() { return cuota; }
 	@Override public String toString() { return super.toString() + " " + cuota; }
+
+	@Override
+	public String aLinea() {
+		return "DEPAGO\t" + nick + "\t" + password.getPassword() + "\t" + cuota;
+	}
+	/** Devuelve nuevo usuario de pago partiendo de texto
+	 * @param linea	Línea de texto a interpretar. Formato tipo \t nick \t password \t cuota
+	 * @return	Nuevo usuario con esos datos, o null si hay cualquier error
+	 */
+	public static UsuarioDePago crearDesdeLinea( String linea ) {
+		try {
+			String[] partes = linea.split("\t");
+			if (!partes[0].equals("DEPAGO")) {
+				return null;
+			}
+			if (partes.length>4) {
+				System.err.println( "Error en línea: demasiadas partes - " + linea );
+				return null;
+			}
+			return new UsuarioDePago( partes[1], new Password( partes[2] ), Double.parseDouble( partes[3] ) );
+		} catch (NumberFormatException e) {
+			System.err.println( "Error en línea: tercer valor no es double - " + linea );
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			System.err.println( "Error en línea: número incorrecto de partes - " + linea );
+			return null;
+		}
+	}
 }
 
 class UsuarioGratis extends Usuario implements Serializable {
@@ -98,9 +164,38 @@ class UsuarioGratis extends Usuario implements Serializable {
 	}
 	public int getNumAnuncios() { return numAnuncios; }
 	@Override public String toString() { return super.toString() + " " + numAnuncios; }
+
+	@Override
+	public String aLinea() {
+		return "GRATIS\t" + nick + "\t" + password.getPassword() + "\t" + numAnuncios;
+	}
+	/** Devuelve nuevo usuario gratis partiendo de texto
+	 * @param linea	Línea de texto a interpretar. Formato tipo \t nick \t password \t cuota
+	 * @return	Nuevo usuario con esos datos, o null si hay cualquier error
+	 */
+	public static UsuarioGratis crearDesdeLinea( String linea ) {
+		try {
+			String[] partes = linea.split("\t");
+			if (!partes[0].equals("GRATIS")) {
+				return null;
+			}
+			if (partes.length>4) {
+				System.err.println( "Error en línea: demasiadas partes - " + linea );
+				return null;
+			}
+			return new UsuarioGratis( partes[1], new Password( partes[2] ), Integer.parseInt( partes[3] ) );
+		} catch (NumberFormatException e) {
+			System.err.println( "Error en línea: tercer valor no es int - " + linea );
+			return null;
+		} catch (IndexOutOfBoundsException e) {
+			System.err.println( "Error en línea: número incorrecto de partes - " + linea );
+			return null;
+		}
+	}
 }
 
 class Password implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String password;
 	public Password(String password) {
 		super();
