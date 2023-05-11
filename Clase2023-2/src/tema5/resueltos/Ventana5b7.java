@@ -137,6 +137,8 @@ public class Ventana5b7 extends JFrame {
 			}
 		} );
 		tfNombre.addFocusListener( new FocusListener() {
+			// Internamente se ha creado un atributo bAdelante
+			// y se ha copiado la referencia del botón
 			@Override
 			public void focusLost(FocusEvent e) {
 				System.out.println( "lost" );
@@ -149,6 +151,68 @@ public class Ventana5b7 extends JFrame {
 			@Override
 			public void focusGained(FocusEvent e) {
 				System.out.println( "gain" );
+			}
+		});
+		lLogoUni.addMouseListener( new MouseListener() {
+			private Point puntoPulsacion = null;
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println( "pressed " + e );
+				puntoPulsacion = e.getPoint();
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println( "released " + e );
+				// dibujo línea de origen a destino
+				Graphics g = lLogoUni.getGraphics();
+				g.setColor( Color.YELLOW );
+				g.drawLine( puntoPulsacion.x, puntoPulsacion.y, e.getX(), e.getY() );
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println( "clicked " + e );
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println( "entered " + e );
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println( "exited " + e );
+			}
+		});
+		lLogoUni.addMouseMotionListener( new MouseMotionListener() {
+			Point puntoAnterior = null;
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				System.out.println( "moved " + e );
+			}
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				System.out.println( "drag " + e );
+				if (puntoAnterior != null) {
+					Graphics g = lLogoUni.getGraphics();
+					g.setColor( Color.RED );
+					g.drawLine( puntoAnterior.x, puntoAnterior.y, e.getX(), e.getY() );
+				}
+				puntoAnterior = e.getPoint();
+			}
+		});
+		tfCodPostal.addKeyListener( new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				System.out.println( "type " + e );
+				if (e.getKeyChar()<'0' || e.getKeyChar()>'9' || tfCodPostal.getText().length()==5) {
+					e.consume();
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				System.out.println( "release " + e );
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				System.out.println( "press " + e );
 			}
 		});
 	}
