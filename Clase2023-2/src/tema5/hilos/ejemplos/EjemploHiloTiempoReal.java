@@ -24,12 +24,19 @@ public class EjemploHiloTiempoReal {
 		bLanzar.addActionListener( new ActionListener( ) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Comprobar que así no funciona!
+//				EjemploAnimacionBalonJLabel v = new EjemploAnimacionBalonJLabel();
+//				v.setVisible( true );
+//				v.mueveElBalon3();  // Animación con rebotes
+//				System.out.println( "Fin animación" );
+//				vent.dispose();
+				// Pero así sí
 				Thread hilo = new Thread() {
 					@Override
 					public void run() {
 						EjemploAnimacionBalonJLabel v = new EjemploAnimacionBalonJLabel();
 						v.setVisible( true );
-						v.mueveElBalon3();  // Animación de con rebotes
+						v.mueveElBalon3();  // Animación con rebotes
 						System.out.println( "Fin animación" );
 					}
 				};
