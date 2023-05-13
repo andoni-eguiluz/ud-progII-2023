@@ -20,6 +20,9 @@ public class CalculoDePi {
 		for (int i = 1; i < numIteraciones; i++) {
 		    bd = bd.add( (new BigDecimal(Math.pow(-1, i))).divide( new BigDecimal(2 * i + 1), 2000, RoundingMode.HALF_UP ) );
 		    // bd = bd.add( new BigDecimal( Math.pow(-1, i) / (2 * i + 1) ) );
+		    if (i % 10000 == 0) {
+		    	System.out.println( "Iteración " + i + ": " + bd.multiply(BigDecimal.valueOf(4)) );
+		    }
 		}
 		return bd.multiply(BigDecimal.valueOf(4));
 	}
