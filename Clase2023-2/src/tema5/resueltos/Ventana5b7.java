@@ -276,7 +276,7 @@ public class Ventana5b7 extends JFrame {
 		taTexto.addComponentListener( new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				int nuevaAltura = taTexto.getWidth()/10;
+				int nuevaAltura = spCentral.getWidth()/10;
 				taTexto.setFont( new Font( "Arial", Font.PLAIN, nuevaAltura ) );
 				System.out.println( "Cambio altura: " + nuevaAltura );
 			}
