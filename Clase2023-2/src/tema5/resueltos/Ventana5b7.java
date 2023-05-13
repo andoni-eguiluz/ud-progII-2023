@@ -31,7 +31,7 @@ public class Ventana5b7 extends JFrame {
 	
 	public Ventana5b7() {
 		// 0.- Configuración
-		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );  // cambiado por tarea de cierre de ventana
 		setSize( 600, 400 );
 		setTitle( "Ventana de prueba" );
 		setAlwaysOnTop(true);
@@ -215,6 +215,72 @@ public class Ventana5b7 extends JFrame {
 				System.out.println( "press " + e );
 			}
 		});
+		KeyAdapter ka = new KeyAdapter() {
+			private boolean shiftPulsado = false;
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_SHIFT) {
+					shiftPulsado = true;
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				System.out.println( "Released " + e );
+				if (e.getKeyCode()==KeyEvent.VK_ESCAPE && shiftPulsado) { // NOOOOOO  && e.getKeyCode()==KeyEvent.VK_SHIFT) {
+					// También se podría usar e.isShiftDown ... isControlDown... etc.
+					if (e.getSource() instanceof JTextField) {
+						JTextField tf = (JTextField) e.getSource();
+						tf.setText( "" );
+					}
+				} else if (e.getKeyCode()==KeyEvent.VK_SHIFT) {
+					shiftPulsado = false;
+				}
+			}
+		};
+		tfCodPostal.addKeyListener( ka );
+		tfNombre.addKeyListener( ka );
+		this.addWindowListener( new WindowListener() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				System.out.println( "OPEN" );
+			}
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.out.println( "CLOSING" );
+				int resp = JOptionPane.showConfirmDialog( Ventana5b7.this, "Quieres cerrar?", "Cierre", JOptionPane.YES_NO_OPTION );
+				if (resp==JOptionPane.OK_OPTION) {
+					Ventana5b7.this.dispose();
+				}
+			}
+			@Override
+			public void windowClosed(WindowEvent e) {
+				System.out.println( "CLOSED" );
+			}
+			@Override
+			public void windowIconified(WindowEvent e) {
+				System.out.println( "ICON" );
+			}
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				System.out.println( "DEICON" );
+			}
+			@Override
+			public void windowActivated(WindowEvent e) {
+				System.out.println( "ACTIV" );
+			}
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				System.out.println( "DEACTIV" );
+			}
+		});
+		taTexto.addComponentListener( new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				int nuevaAltura = taTexto.getWidth()/10;
+				taTexto.setFont( new Font( "Arial", Font.PLAIN, nuevaAltura ) );
+				System.out.println( "Cambio altura: " + nuevaAltura );
+			}
+		});
 	}
 	
 	class GestorBotonCancelarInterna implements ActionListener {
@@ -223,8 +289,7 @@ public class Ventana5b7 extends JFrame {
 			System.out.println( "Acción en botón" );
 			lSuperior.setText( "Ventana cancelada" );
 		}
-	}
-	
+	}	
 	
 }
 
