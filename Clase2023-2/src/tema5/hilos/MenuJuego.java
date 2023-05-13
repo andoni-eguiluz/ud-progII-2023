@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 /** Clase de ejemplo de menú de juego para llamar con un hilo a la ventana de juego
+ * (sin hilos no se ejecutaría)
  * @author andoni.eguiluz at ingenieria.deusto.es
  */
 @SuppressWarnings("serial")
@@ -15,6 +16,8 @@ public class MenuJuego extends JFrame {
 		mj.setVisible( true );
 		System.out.println( "Fin main" );
 	}
+	
+	private JuegoClicker juego;
 	
 	public MenuJuego() {
 		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
@@ -34,20 +37,23 @@ public class MenuJuego extends JFrame {
 				MenuJuego.this.setVisible( false );
 				// Opción de botón enabled - bJugar.setEnabled( false );
 
-				// No funcionaría (Swing no puede ejecutar un bucle de tiempo real si tiene que seguir dibujando):
-				// JuegoClicker mgt = new JuegoClicker();
-				// mgt.gameLoop();
-				
+				// TODO Corregir
+				// No funciona!!! (Swing no puede ejecutar un bucle de tiempo real si tiene que seguir dibujando):
+				juego = new JuegoClicker( MenuJuego.this );
+				juego.gameLoop();
+
+				// Solución (método 1)
 				// Crear un hilo 1 - heredando de Thread
-				// Thread hilo = new MiHilo();
-				// hilo.run();  // No magia
-				// hilo.start();  // MAGIA!!
-				
+//				Thread hilo = new MiHilo();
+//				// hilo.run();  // No magia
+//				hilo.start();  // MAGIA!!
+
+				// Solución (método 2)
 				// Crear un hilo 2 - implementando Runnable
-				Runnable miRunnable = new MiRunnable();
-				Thread hilo = new Thread( miRunnable );
-				hilo.start();
-				System.out.println( "Fin llamada game loop");
+//				Runnable miRunnable = new MiRunnable();
+//				Thread hilo = new Thread( miRunnable );
+//				hilo.start();
+//				System.out.println( "Fin llamada game loop");
 			}
 		});
 		bSalir.addActionListener( new ActionListener() {
@@ -59,8 +65,16 @@ public class MenuJuego extends JFrame {
 		});
 	}
 
-	private JuegoClicker juego;
-	
+	// Ejemplo de creación de hilo con clase externa que hereda de Thread (método 1)
+	class MiHilo extends Thread {
+		@Override
+		public void run() {
+			juego = new JuegoClicker( MenuJuego.this );
+			juego.gameLoop();
+		}
+	}
+
+	// Ejemplo de creación de hilo con implementación de Runnable (método 2)
 	class MiRunnable implements Runnable {
 		@Override
 		public void run() {
@@ -68,14 +82,7 @@ public class MenuJuego extends JFrame {
 			juego.gameLoop();
 		}
 	}
+
 	
 }
 
-// Ejemplo de creación de hilo con clase externa que hereda de Thread (método 1)
-//class MiHilo extends Thread {
-//	@Override
-//	public void run() {
-//		JuegoClicker mgt = new JuegoClicker( null );
-//		mgt.gameLoop();
-//	}
-//}

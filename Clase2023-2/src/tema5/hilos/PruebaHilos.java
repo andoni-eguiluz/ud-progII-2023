@@ -8,6 +8,10 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+/** Prueba de hilos con salida a consola, ver cómo cada hilo va a su rollo
+ * y Swing al suyo
+ * @author andoni.eguiluz at ingenieria.deusto.es
+ */
 public class PruebaHilos {
 	
 	private static boolean ventanaActiva = false;
@@ -16,7 +20,6 @@ public class PruebaHilos {
 		JFrame vent = new JFrame();
 		vent.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		vent.setSize( 400, 300 );
-		vent.setLocation( 2800, 100 );
 		
 		vent.addMouseMotionListener( new MouseMotionListener() {
 			@Override

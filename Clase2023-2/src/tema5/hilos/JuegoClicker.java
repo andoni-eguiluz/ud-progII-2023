@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /** Pequeño juego clicker con eventos de interacción de ratón de Swing
+ * (sin hilos - se ejecuta desde el main)
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class JuegoClicker {
