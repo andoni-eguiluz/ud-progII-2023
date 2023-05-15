@@ -273,7 +273,7 @@ public class Ventana5b7 extends JFrame {
 				System.out.println( "DEACTIV" );
 			}
 		});
-		taTexto.addComponentListener( new ComponentAdapter() {
+		spCentral.addComponentListener( new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				int nuevaAltura = spCentral.getWidth()/10;
