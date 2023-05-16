@@ -31,7 +31,7 @@ public class DatosEjercicio {
 	}
 	
 	public String getHoraFin( DiaSemana dia ) {
-		return mapaDatosEj.get( dia );
+		return mapaHoraFin.get( dia );
 	}
 	
 	public void setDatosEjercicio( DiaSemana dia, String datos ) {
