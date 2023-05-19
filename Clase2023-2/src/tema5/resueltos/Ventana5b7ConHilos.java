@@ -5,6 +5,9 @@ package tema5.resueltos;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.*;
 
 /** Solución ejercicio 5a.4
@@ -28,6 +31,8 @@ public class Ventana5b7ConHilos extends JFrame {
 	// No static 
 	
 	private JLabel lSuperior;
+	private Thread hilo;
+	private boolean ventanaSigue = true;
 	
 	public Ventana5b7ConHilos() {
 		// 0.- Configuración
@@ -50,6 +55,7 @@ public class Ventana5b7ConHilos extends JFrame {
 		JButton bCancelar = new JButton( "¡Cancela!");
 		JButton bAdelante = new JButton( "¡A por ello campeón!" );
 		JButton bCambioColor = new JButton( "Cambia negro/blanco" );
+		JButton bCrono = new JButton( "Lanzar crono" );
 		JTextArea taTexto = new JTextArea( 5, 10 );
 		JButton[] bDerecha = new JButton[12];
 		String botones = "123456789<0*";
@@ -98,6 +104,7 @@ public class Ventana5b7ConHilos extends JFrame {
 		pInferior.add( bCambioColor );
 		pInferior.add( bCancelar );
 		pInferior.add( bAdelante );
+		pInferior.add( bCrono );
 		this.add( spCentral, BorderLayout.CENTER );
 		this.add( pDerecho, BorderLayout.EAST );
 		for (JButton boton : bDerecha) {
@@ -255,12 +262,37 @@ public class Ventana5b7ConHilos extends JFrame {
 				System.out.println( "CLOSING" );
 				int resp = JOptionPane.showConfirmDialog( Ventana5b7ConHilos.this, "Quieres cerrar?", "Cierre", JOptionPane.YES_NO_OPTION );
 				if (resp==JOptionPane.OK_OPTION) {
-					Ventana5b7ConHilos.this.dispose();
+					// Hilo - segunda manera - implementar el interfaz Runnable
+					Runnable r = new Runnable() {
+						public void run() {
+							int numRestas = getHeight() - 250;
+							while (getHeight()>250) {
+								setSize( getWidth()-1, getHeight()-1 );
+								try {
+									Thread.sleep( 3000 / numRestas );
+								} catch (InterruptedException e1) {
+									e1.printStackTrace();
+								}
+							}
+							Ventana5b7ConHilos.this.dispose();
+						}
+					};
+					Thread hilo = new Thread(r);
+					hilo.start();
 				}
 			}
 			@Override
 			public void windowClosed(WindowEvent e) {
 				System.out.println( "CLOSED" );
+				// Cerrar el hilo. 3 maneras
+				if (hilo!=null) {
+					// 1.- Desaconsejada
+					// hilo.stop();
+					// 2.- Aconsejada: muerte educada
+					// hilo.interrupt();
+					// 3.- Lógica normal de programación
+					ventanaSigue = false;
+				}
 			}
 			@Override
 			public void windowIconified(WindowEvent e) {
@@ -331,6 +363,34 @@ public class Ventana5b7ConHilos extends JFrame {
 				  // Acabará cuando acabe el run()
 			}
 		} );
+		bCrono.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bCrono.setVisible( false );
+				hilo = new Thread( new Runnable() {
+					public void run() {
+						int cont = 0;
+						// while (true) {
+						while (ventanaSigue) {
+							SimpleDateFormat sdf = new SimpleDateFormat( "HH:mm:ss SSSS" );
+							lSuperior.setText( "" + sdf.format(new Date()) );
+							cont++;
+							if (cont % 50 == 0) {
+								System.out.println( cont );
+							}
+							try {
+								Thread.sleep( 20 );
+							} catch (InterruptedException e) {
+								// e.printStackTrace();
+								// break;
+								return;
+							}
+						}
+					}
+				} );
+				hilo.start();
+			}
+		});
 	}
 
 	// Podríamos usar una clase interna con nombre
