@@ -65,7 +65,7 @@ public class EjemploMuchosPanelesConScroll extends JFrame {
 			add( lTitulo, BorderLayout.NORTH );
 			JTextArea taTexto = new JTextArea( texto, 5, 10 );  // Atención - este marca el tamaño visual que va a "pedir" la textarea, 5 filas y 10 columnas
 			add( new JScrollPane( taTexto ), BorderLayout.CENTER );
-			String grafEjemplo = new String[] { "/tema3/ejemplos/runner/img/asteroid.png", "/tema3/ejemplos/runner/img/nave.png", "/tema3/ejemplos/runner/img/star.png", "/tema3/ejemplos/runner/img/UD-green.png" } [(new Random()).nextInt(4)];  // Aleatorio para el ejemplo
+			String grafEjemplo = new String[] { "/tema2b/ejemplos/runner/img/asteroid.png", "/tema2b/ejemplos/runner/img/nave.png", "/tema2b/ejemplos/runner/img/star.png", "/tema2b/ejemplos/runner/img/UD-green.png" } [(new Random()).nextInt(4)];  // Aleatorio para el ejemplo
 			JLabelGrafico graficoEjemplo = new JLabelGrafico( grafEjemplo, 50, 80 );
 			add( graficoEjemplo, BorderLayout.EAST );
 		}
