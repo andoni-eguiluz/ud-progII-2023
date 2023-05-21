@@ -35,6 +35,7 @@ public class EjemploCambioVentanaEnCaliente extends JFrame {
 				pCentro.add( bNuevo );
 				if (cbConRevalidate.isSelected()) {
 					pCentro.revalidate();  // Fundamental hacer esto cuando se cambia la estructura de un contenedor "en caliente"
+					pCentro.repaint();  // En algunas ocasiones es necesario hacer también repaint() (no siempre)
 				}
 			}
 		});
